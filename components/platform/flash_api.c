@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include "rom/spi_flash.h"
 
+#include "platform_wdt.h"
+
 #include "esp_image_format.h"
 #include "esp_flash_data_types.h"
 
@@ -170,4 +172,10 @@ uint32_t flash_rom_get_speed(void)
     default: break;
   }
   return 0;
+}
+
+esp_err_t flash_erase(size_t sector)
+{
+  platform_wdt_feed();
+  return spi_flash_erase_sector(sector);
 }
